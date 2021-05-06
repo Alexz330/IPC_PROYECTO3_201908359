@@ -1,0 +1,4 @@
+flask
+django
+flask-cors
+bootstrap4
