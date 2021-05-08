@@ -79,27 +79,50 @@
 
   <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
 
-  <span class="btn btn-primary btn-file">
-    Subir archivo <input type="file" id="Cargar archivo">
-  </span>
+  
   <main class="d-flex justify-content-around">
 
     <section class="">
+      
+      
+      <form action="" id="post-formm" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
 
-      <form action="" id="post-form">
-
-        <button type="button" class="btn btn-success" id="get-button" type="submit">recibir</button>
-        <input type="submit" value="Enviar datos" />
+        <span class="btn btn-primary btn-file">
+          Subir archivo <input type="file" id="Cargar archivo" name="Cargar_archivo">
+        </span>
+        <button class="btn btn-warning" id="Enviar_Datos" type="submit">recibir</button>
+        {% if todoxml %}
         <textarea class="" rows="18" cols="60" style="background-color:rgb(240, 243, 245), " disabled
-          id="contenidoXML"></textarea>
+          id="contenidoXML">
+        
+          {{todoxml}}
+       
+        </textarea>
+        {% endif%}
 
-
-        <button type="button" class="btn btn-danger" id="">reset</button>
-
-        <textarea rows="18" cols="60" style="background-color:rgb(240, 243, 245)" disabled id="messages"></textarea>
       </form>
-    </section>
 
+    </section>
+    <section>
+
+
+    <form action="" id="post-formm" method="GET" >
+        
+        
+        <button type="button" class="btn btn-danger" id="" type="submit">reset</button>
+        <button type="button" class="btn btn-danger" id="" type="submit">F ene el chat</button>
+
+        {% if todoxml2 %}
+        <textarea rows="18" cols="60" style="background-color:rgb(240, 243, 245)" disabled id="messages">
+          {{todoxml2}}
+        </textarea>
+        {% endif %}
+    </form>
+
+
+
+    </section>
     <script>
       function cargarXML(events) {
         let archivo = events.target.files[0];
@@ -114,42 +137,42 @@
           alert('Mi pana dele pa fuera')
         }
 
-        let post_form = document.getElementById("post-form");
-        let get_button = document.getElementById("get-button");
-        let messages = document.getElementById("messages");
+        // let post_form = document.getElementById("post-form");
+        // let get_button = document.getElementById("get-button");
+        // let messages = document.getElementById("messages");
 
-        post_form.addEventListener("submit", (e) => {
-          e.preventDefault();
-          fetch("http://localhost:5000/events/", {
-            method: "POST",
-            headers: {
-              "Content-Type": "text/plain",
-            },
-            body: post_form.elements["contenidoXML"].value,
-          }).then((res) => {
-            if (res.ok) {
-              messages.innerText = "OK";
-            }
-          });
-        });
+        // post_form.addEventListener("submit", (e) => {
+        //   e.preventDefault();
+        //   fetch("http://localhost:5000/events/", {
+        //     method: "POST",
+        //     headers: {
+        //       "Content-Type": "text/plain",
+        //     },
+        //     body: post_form.elements["contenidoXML"].value,
+        //   }).then((res) => {
+        //     if (res.ok) {
+        //       messages.innerText = "OK";
+        //     }
+        //   });
+        // });
 
-        get_button.addEventListener("click", (e) => {
-          e.preventDefault();
-          fetch("http://localhost:5000/events/", {
-            method: "GET",
-            headers: {
-              "Content-Type": "text/plain",
-            },
-          })
-            .then((res) => {
-              if (res.ok) {
-                return res.text();
-              }
-            })
-            .then((res_txt) => {
-              messages.innerText = res_txt;
-            });
-        });
+        // get_button.addEventListener("click", (e) => {
+        //   e.preventDefault();
+        //   fetch("http://localhost:5000/events/", {
+        //     method: "GET",
+        //     headers: {
+        //       "Content-Type": "text/plain",
+        //     },
+        //   })
+        //     .then((res) => {
+        //       if (res.ok) {
+        //         return res.text();
+        //       }
+        //     })
+        //     .then((res_txt) => {
+        //       messages.innerText = res_txt;
+        //     });
+        // });
 
       }
 
