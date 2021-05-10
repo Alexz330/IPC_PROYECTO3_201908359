@@ -5,23 +5,23 @@ import xmltodict
 
 # Create your views here.
 
+
+
 def index(request):
-    global nom
-    enxml = ""
-    context={}
-    if request.method == 'POST':
+    return render(request,'index.html')
+
+def mostrarxml(request):
+     if request.method == "POST":
+        enxml = ""
+        context={}
         archivo_subido= request.FILES['Cargar_archivo']
         nom=archivo_subido.name
+        xml = open(nom,"r")
         print(archivo_subido.name)
         cont = 0
-        for linea in archivo_subido:
-            if cont==0:
-                l=str(linea[:len(linea)-2])
-                cont=cont+1
-            else:
-                l = str(linea[1:])
-                l = str(l[:len(linea) - 1])
-            enxml=str(enxml)+str(l)+"\n"
+        for linea in xml:
+           
+            enxml=str(enxml)+str(linea)
         context['todoxml'] = enxml
        
 
@@ -29,40 +29,30 @@ def index(request):
         lectura_xml = archivo_xml.read()
        
 
-        r = requests.post('http://127.0.0.1:5000/exml',data=lectura_xml)
+        r = requests.post('http://127.0.0.1:5000/mandarxml',data=lectura_xml)
         
-        # print(context)
-        string_xml = r.content
+        
         return render(request,'index.html',context)
+    
+def mostrariformacion(request):
     context2 = {}
+    if request.method == "GET":    
 
-    enxml1 = ""
-    if request.method == "GET" :
-        
+        enxml1 = ""
         archivo_xmll = open("prueba1.xml", 'w')
-        n = requests.get('http://127.0.0.1:5000/nxml')
+        n = requests.get('http://127.0.0.1:5000/obtenerxml')
         archivo_xmll.write(n.text)
         archivo_xmll.close()
-        mostrarxml = open("prueba1.xml", 'r+')
+
+        mostrarxml = open("prueba1.xml", 'r')
         
-        lineas = [str(i).rstrip('\n').strip() for i in mostrarxml]
-        print(lineas)
+        # lineas = [str(i).rstrip('\n').strip() for i in mostrarxml]
+        # print(lineas)
         cont2 = 0
-        for linea in lineas:
-            if cont2==0:
-                l=str(linea[:len(linea)-2])
-                cont2=cont2+1
-            else:
-                l = str(linea[1:])
-                l = str(l[:len(linea) - 1])
-            enxml1=str(enxml1)+str(l)+"\n"
+        for linea in mostrarxml:
+          
+            enxml1=str(enxml1)+str(linea)
         context2['todoxml2'] = enxml1
 
-        print()
-        return render(request,'index.html',context2)
+    return render(request,'index.html',context2)
     
-    
-     
-
-
-

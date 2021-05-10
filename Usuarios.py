@@ -1,9 +1,8 @@
 class Usuario:
 
-    def __init__ (self, reportado ,fecha, afectados=None, ):
+    def __init__(self, fecha, correo, afectados,error):
 
-        # self.mensajes = Cantidida_Mensajes
-        self.reportado= reportado
         self.fecha = fecha
+        self.correo= correo
         self.afectados = afectados
-        
+        self.error=error

@@ -18,5 +18,8 @@ from django.urls import path
 from web import views
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('ruta1/', views.index)
+    path('comoquerras/', views.index),
+    path('ruta1/', views.index),
+    path('ruta2/', views.mostrarxml),
+    path('ruta3/', views.mostrariformacion)
 ]
